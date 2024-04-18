@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  screens: one
+  movies: one
+  show_date: 2024-04-11
+  show_time: 2024-04-11 16:47:41
+  ticket_price_ordinary: 9.99
+  ticket_price_premium: 9.99
+  booked_tickets: 1
+
+two:
+  screens: two
+  movies: two
+  show_date: 2024-04-11
+  show_time: 2024-04-11 16:47:41
+  ticket_price_ordinary: 9.99
+  ticket_price_premium: 9.99
+  booked_tickets: 1
