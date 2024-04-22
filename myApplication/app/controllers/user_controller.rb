@@ -8,14 +8,14 @@ class UserController < ApplicationController
   # end
 
   def index
-    @Allusers = User.all
-    render json: @Allusers
+    @all_users = User.all
+    render json: @all_users
   end
 
-  def user_names
-    names = User.all.pluck(:name)
-    render json: names
-  end
+  # def user_names
+  #   names = User.all.pluck(:name)
+  #   render json: names
+  # end
 
   def login
     @user = User.find_by(email: params[:email], password: params[:password])
@@ -57,7 +57,7 @@ class UserController < ApplicationController
 
   def destroy
     @user = User.find(params[:id])
-    @user.active = false
+    @user.is_active = false
 
     if @user.save
       render json: { message: "user removed" }
@@ -69,6 +69,6 @@ class UserController < ApplicationController
   private
 
   def user_params
-    params.permit(:name, :email, :password, :role, :active)
+    params.permit(:name, :email, :password, :role)
   end
 end

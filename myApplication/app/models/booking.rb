@@ -5,6 +5,6 @@ class Booking < ApplicationRecord
   # serialize :seats, Hash
 
   def as_json(options = {})
-    super(only: [:user_id, :show_id, :seats])
+    super(only: [:id, :user_id, :show_id, :seats])
   end
 end

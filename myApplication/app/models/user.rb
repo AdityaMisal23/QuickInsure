@@ -4,11 +4,11 @@ class User < ApplicationRecord
 
   validates :email, presence: true, uniqueness: true
   validates :name, presence: true # format: {with: /\A[a-zA-Z]\z/ , message: "Special characters are not allowed"}
-  validates :password, format: { with: /(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*()\-_=+{};:,<.>ยง~]).{8,}/, message: "must include at least one uppercase letter, one lowercase letter, and one special character" }
+  validates :password, format: { with: /(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*()\-_=+{};:,<.>ยง~]).{8,}/, message: "must include at least one uppercase letter, one lowercase letter, and one special character and length must be greater than 7" }
   validates :role, inclusion: { in: ["customer", "admin", "theater"], message: "%{value} is not a valid value" }
 
   def as_json(options = {})
-    super(only: [:name, :email, :role])
+    super(only: [:id, :name, :email, :role])
   end
 
   after_update :update_log

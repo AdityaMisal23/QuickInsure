@@ -1,7 +1,15 @@
 class ScreenController < ApplicationController
   def index
-    @screens = Theater.joins(screens: { shows: :movie })
-      .where("movies.name = ? AND theaters.location_id= ? AND theaters.id = ?", params[:movie_name], params[:location], params[:theater_id]).pluck("screens.id, screens.name").as_json
+    @screens = Screen.all
+    if @screens
+      render json: @screens
+    else
+      render json: { message: "Something went wrong" }
+    end
+  end
+
+  def get_theater_screens
+    @screens = Screen.where("theater_id =  ?", params[:theater_id])
 
     if @screens
       print @screens
@@ -9,6 +17,22 @@ class ScreenController < ApplicationController
     else
       render json: { message: "No screens found" }
     end
+  end
+
+  def is_premium
+    @seat = params[:seat]
+    @show = Show.where("id = ?", params[:show_id])
+    if ((@show.number_of_seats * @show.ordinary_percentage) / 100) > params[:row]
+      render json: true
+      return
+    end
+    render json: false
+  end
+
+  def get_theater_screens_of_movie
+    @screens = Theater.joins(screens: { shows: :movie })
+      .where("theaters.id = ? AND movies.id = ? AND shows.show_time = ?", params[:theater_id], params[:movie_id], Time.current)
+      .pluck("screens.name,screens.id").as_json
   end
 
   def show
@@ -27,13 +51,13 @@ class ScreenController < ApplicationController
 
   def destroy
     @screen = Screen.find(params[:id])
-    @screen.active = false
+    @screen.is_active = false
     @screen.save
   end
 
   private
 
   def screen_params
-    params.permit(:name, :theater_id, :number_of_seats)
+    params.permit(:name, :theater_id, :number_of_seats, :ordinary_percentage)
   end
 end

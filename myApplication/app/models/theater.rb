@@ -12,6 +12,6 @@ class Theater < ApplicationRecord
   validates :pincode, format: { with: /\A\d{6}\z/, message: "Wrong pincode format" }
 
   def as_json(options = {})
-    super(only: [:id, :theater_name, :theater_address, :location, :pincode])
+    super(only: [:id, :theater_name, :theater_address, :location, :pincode, :active])
   end
 end

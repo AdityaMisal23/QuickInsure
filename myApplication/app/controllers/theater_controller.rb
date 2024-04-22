@@ -7,16 +7,35 @@ class TheaterController < ApplicationController
   # end
 
   def index
+    @theaters = Theater.all
+    if @theaters
+      render json: @theaters
+    else
+      render json: { error: "Something went wrong" }, status: unprocessable_entity
+    end
+  end
+
+  def get_theater_on_location_and_movie
     @theaters = Theater.select("theaters.id, theaters.theater_name")
       .joins(screens: { shows: :movie })
-      .where("movies.name = ? AND theaters.location_id= ?", params[:movie_name], params[:location_id]).as_json
+      .where("movies.id = ? AND theaters.is_active = true AND theaters.location_id= ?", params[:movie_id], params[:location_id].to_i).uniq.as_json
 
     render json: @theaters.as_json
   end
 
+  def get_user_theaters
+    @theaters = Theater.where("user_id = ? AND is_active = true", params[:user_id])
+
+    if @theaters
+      render json: @theaters
+    else
+      render json: { message: "This user have no theaters" }
+    end
+  end
+
   def destroy
     @theater = Theater.find(params[:id])
-    @theater.active = false
+    @theater.is_active = false
     if @theater.save
       render json: { message: "Theater removed" }
     else
@@ -35,10 +54,8 @@ class TheaterController < ApplicationController
     @theater = Theater.new(theater_params)
     if @theater.save
       @screen_data = params[:screen_data]
-      @screen_data.each do |screen_params|
-        screen_hash = screen_params.permit!.to_h
-        screen, seats = screen_hash.first
-        Screen.create(name: screen, theater_id: @theater.id, number_of_seats: seats)
+      @screen_data.each do |screen|
+        Screen.create(name: screen[0], theater_id: @theater.id, number_of_seats: screen[1], number_of_seats_per_column: screen[2], ordinary_percentage: screen[3])
       end
 
       render json: { message: "new theater added" }
@@ -50,6 +67,6 @@ class TheaterController < ApplicationController
   private
 
   def theater_params
-    params.permit(:user_id, :theater_name, :theater_address, :pincode, :location_id, :active)
+    params.permit(:user_id, :theater_name, :theater_address, :pincode, :location_id)
   end
 end

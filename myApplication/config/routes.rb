@@ -15,13 +15,11 @@ Rails.application.routes.draw do
 
   get "movie/movies", to: "movie#get_all_movies"
 
-  get "theater/theaters", to: "theater#get_all_theaters_based_on_location"
+  get "theater/getTheaterOnLcationAndMovie", to: "theater#get_theater_on_location_and_movie"
 
   get "user/namedMovie", to: "user#get_movie_by_name"
 
   get "show/getAllBookedSeats", to: "show#get_all_booked_seat"
-
-  get "location/getAllCities", to: "location#index"
 
   get "user/getNames", to: "user#user_names"
 
@@ -35,6 +33,10 @@ Rails.application.routes.draw do
 
   get "show/getBookings", to: "show#get_all_bookings"
 
+  get "screen/getTheaterScreensOfMovie", to: "screen#get_theater_screens_of_movie"
+
+  get "screen/getTheaterScreens", to: "screen#get_theater_screens"
+
   get "show/getAvailability", to: "show#get_seat_availability"
 
   get "payment/getPaymentDeatils", to: "payment#get_payment_details"
@@ -42,6 +44,20 @@ Rails.application.routes.draw do
   get "log/getUserLogs", to: "log#get_logs_of_user"
 
   get "movie/getMoviesUsingGenre", to: "movie#find_movie_using_genre"
+
+  get "movie/searchMovie", to: "movie#search_a_movie"
+
+  get "theater/getUserTheaters", to: "theater#get_user_theaters"
+
+  get "booking/getBookings", to: "booking#get_bookings"
+
+  get "screen/isPremium", to: "screen#is_premium"
+
+  get "movie/getLatestMovie", to: "movie#get_latest_movies"
+
+  get "show/showSeatPrice", to: "show#show_seat_price"
+
+  get "show/getShowsOfMovie", to: "show#get_shows_of_movie"
 
   resources :show
 

@@ -14,7 +14,7 @@ class PaymentController < ApplicationController
   end
 
   def get_payment_details
-    @payment = Payment.find_by(bookings_id: params[:booking_id])
+    @payment = Payment.find_by(booking_id: params[:booking_id])
     if @payment
       render json: @payment
     else
@@ -22,7 +22,8 @@ class PaymentController < ApplicationController
     end
   end
 
-  # id | bookings_id | payment | status | payment_type | created_at | updated_at
+  private
+
   def payment_params
     params.permit(:booking_id, :payment, :status, :payment_type)
   end

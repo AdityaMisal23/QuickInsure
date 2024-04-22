@@ -33,8 +33,41 @@ class MovieController < ApplicationController
   end
 
   def find_movie_using_genre
-    @movies = Movi.find_by(genre: params[:genre])
-    render json: @movies
+    @movies = Movie.where("genre = ?", params[:genre])
+    if @movies.length > 0
+      render json: @movies
+    else
+      render json: { message: "No movies found" }
+    end
+  end
+
+  def get_latest_movies
+    @movies = Movie.where("is_active = true")
+    if @movies
+      puts "Hello sahil ...:)"
+      render json: @movies
+    else
+      render json: { message: "No movies available" }
+    end
+  end
+
+  def show
+    @movie = Movie.find(params[:id])
+    if @movie
+      render json: @movie
+    else
+      render json: { message: "Movie not found" }
+    end
+  end
+
+  def destroy
+    @movie = Movie.find(params[:id])
+    @movie.is_active = false
+    if @movie.save
+      render json: { message: "Movie is now in-active" }
+    else
+      render json: { message: "Something went wrong" }
+    end
   end
 
   private
