@@ -82,3 +82,4 @@ production:
   database: my_application_production
   username: my_application
   password: <%= ENV["MY_APPLICATION_DATABASE_PASSWORD"] %>
+

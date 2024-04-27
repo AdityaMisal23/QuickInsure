@@ -19,20 +19,15 @@ class ScreenController < ApplicationController
     end
   end
 
-  def is_premium
-    @seat = params[:seat]
-    @show = Show.where("id = ?", params[:show_id])
-    if ((@show.number_of_seats * @show.ordinary_percentage) / 100) > params[:row]
-      render json: true
-      return
-    end
-    render json: false
-  end
-
   def get_theater_screens_of_movie
     @screens = Theater.joins(screens: { shows: :movie })
-      .where("theaters.id = ? AND movies.id = ? AND shows.show_time = ?", params[:theater_id], params[:movie_id], Time.current)
+      .where("theaters.id = ? AND movies.id = ? AND shows.show_time >= ?", params[:theater_id], params[:movie_id], DateTime.now)
       .pluck("screens.name,screens.id").as_json
+    if @screens.present?
+      render json: @screens
+    else
+      render json: { message: "No screen present" }
+    end
   end
 
   def show
@@ -40,24 +35,37 @@ class ScreenController < ApplicationController
     render json: @screen
   end
 
-  def create
-    @screen = Screen.new(screen_params)
-    if @screen.save!
-      render json: { message: "Screen added" }
+  def destroy
+    @screen = Screen.where(id: params[:id])
+    if @screen.present?
+      @screen[0].is_active = false
+      @screen[0].save
+      render json: { message: "Screen is removed" }
     else
-      render json: { message: "Failed" }
+      render json: { message: "Screen is not present" }
     end
   end
 
-  def destroy
-    @screen = Screen.find(params[:id])
-    @screen.is_active = false
+  def create
+    @name = params[:name]
+    @theater_id = params[:theater_id].to_i
+    @number_of_seats = params[:number_of_seats].to_i
+
+    @screen = Screen.new(name: @name, theater_id: @theater_id, number_of_seats: @number_of_seats)
     @screen.save
-  end
 
-  private
+    @seats = params[:seats]
+    @seats.each do |seat|
+      row = seat["row"]
+      total_seat = seat["total"].to_i
+      type = seat["type"]
+      resource_type = "Screen"
 
-  def screen_params
-    params.permit(:name, :theater_id, :number_of_seats, :ordinary_percentage)
+      for i in 1..total_seat
+        @seat = Seat.new(resource_id: @screen.id, resource_type: resource_type, row: row, column: i, section: type)
+        @seat.save
+      end
+    end
+    render json: { message: "Screen added" }
   end
 end

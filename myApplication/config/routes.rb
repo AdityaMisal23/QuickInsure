@@ -59,6 +59,12 @@ Rails.application.routes.draw do
 
   get "show/getShowsOfMovie", to: "show#get_shows_of_movie"
 
+  get "show/checkSlotAvailable", to: "show#check_slot_available"
+
+  get "show/getShowsOfsreenAndDate", to: "show#get_shows_of_sreen_And_Date"
+
+  get "user/getUsersBasedOnRole", to: "user#get_users_based_on_role"
+
   resources :show
 
   resources :user

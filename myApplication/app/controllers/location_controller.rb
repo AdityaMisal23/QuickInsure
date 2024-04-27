@@ -5,7 +5,7 @@ class LocationController < ApplicationController
   end
 
   def create
-    @location = Location.new(name: params[:name])
+    @location = Location.create!(name: params[:name])
     if @location
       render json: { message: "Location Added" }
     else

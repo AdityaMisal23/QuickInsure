@@ -12,10 +12,14 @@ class UserController < ApplicationController
     render json: @all_users
   end
 
-  # def user_names
-  #   names = User.all.pluck(:name)
-  #   render json: names
-  # end
+  def get_users_based_on_role
+    @users = User.where(role: params[:role])
+    if @users.present?
+      render json: @users
+    else
+      render json: { message: "Users not present with this role" }
+    end
+  end
 
   def login
     @user = User.find_by(email: params[:email], password: params[:password])
@@ -28,18 +32,26 @@ class UserController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
-    render json: @user
+    @user = User.find_by(id: params[:id])
+    if @user.present?
+      render json: @user
+    else
+      render json: { message: "wrong id passed" }, status: :bad_request
+    end
   end
 
   def update
+    if params[:password] == ""
+      render json: { message: "Password must exists" }, status: :unprocessable_entity
+      return
+    end
     @user = User.find(params[:id])
     if @user
       @user.password = params[:password]
       @user.save
       render json: { message: "Update success" }
     else
-      render json: { message: "Update Failed" }
+      render json: { message: "Update Failed" }, status: :unprocessable_entity
     end
   end
 

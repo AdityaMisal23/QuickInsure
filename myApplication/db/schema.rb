@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_22_070733) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_25_101752) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -44,7 +44,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_22_070733) do
     t.datetime "updated_at", null: false
     t.string "genre"
     t.date "release_date"
-    t.boolean "is_active"
+    t.boolean "is_active", default: true
+    t.decimal "movie_duration"
   end
 
   create_table "payments", force: :cascade do |t|
@@ -64,20 +65,29 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_22_070733) do
     t.bigint "theater_id", null: false
     t.integer "number_of_seats"
     t.boolean "is_active", default: true
-    t.decimal "ordinary_percentage"
-    t.integer "number_of_seats_per_column"
     t.index ["theater_id"], name: "index_screens_on_theater_id"
+  end
+
+  create_table "seats", force: :cascade do |t|
+    t.integer "resource_id"
+    t.string "resource_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "row"
+    t.integer "column"
+    t.string "section"
   end
 
   create_table "shows", force: :cascade do |t|
     t.bigint "screen_id", null: false
     t.bigint "movie_id", null: false
-    t.decimal "ticket_price_ordinary"
-    t.decimal "ticket_price_premium"
     t.integer "booked_tickets"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "show_time", precision: nil
+    t.decimal "gold"
+    t.decimal "silver"
+    t.decimal "platinum"
     t.index ["movie_id"], name: "index_shows_on_movie_id"
     t.index ["screen_id"], name: "index_shows_on_screen_id"
   end

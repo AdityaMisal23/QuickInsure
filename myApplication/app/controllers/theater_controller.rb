@@ -35,6 +35,13 @@ class TheaterController < ApplicationController
 
   def destroy
     @theater = Theater.find(params[:id])
+    @screens = Screen.find_by(theater_id: params[:id])
+    if @screens.present?
+      @screens.each do |screen|
+        screen.is_active = false
+        screen.save
+      end
+    end
     @theater.is_active = false
     if @theater.save
       render json: { message: "Theater removed" }
@@ -49,18 +56,11 @@ class TheaterController < ApplicationController
   end
 
   def create
-    # puts params[:user_id] + params[:theater_name] + params[:address] + params[:pincode]
-
-    @theater = Theater.new(theater_params)
-    if @theater.save
-      @screen_data = params[:screen_data]
-      @screen_data.each do |screen|
-        Screen.create(name: screen[0], theater_id: @theater.id, number_of_seats: screen[1], number_of_seats_per_column: screen[2], ordinary_percentage: screen[3])
-      end
-
-      render json: { message: "new theater added" }
+    theater = Theater.new(theater_params)
+    if theater.save
+      render json: { message: "Theater added" }
     else
-      render json: @theater.errors.messages
+      render json: { message: "Failed" }
     end
   end
 

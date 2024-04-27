@@ -5,22 +5,42 @@ class MovieController < ApplicationController
   end
 
   def search_a_movie
-    @movies = Movie.where("name like ?", "%#{(params[:name]).upcase}%")
-    render json: @movies
+    @movies = Movie.where("name like ? or name = ?", "%#{(params[:name]).upcase}%", params[:name])
+    if @movies.present?
+      render json: @movies
+    else
+      render json: { message: "No such movie present" }
+    end
   end
 
-  # its a testing api
-  def get_top_todays_movies
-    top = 1
-    movie_name = Movie.select("movies.name , sum(shows.booked_tickets) as bookings")
-      .joins(shows: { screen: { theater: :location } })
-      .where(locations: { id: 5 })
-      .where(shows: { show_date: Date.today })
-      .group("movies.name")
+  def all_active_movies
+    @movies = Movie.where("is_active = true")
+    if @movies
+      render json: @movies
+    else
+      render json: { message: "No movies available" }
+    end
+  end
+
+  def get_latest_movies
+    # Assuming `params` is accessible within this method
+    d = 2.months.ago
+    # t = Time.parse(params[:time])
+    # within_date = DateTime.new(d.year, d.month, d.day, t.hour, t.min, t.sec)
+
+    movie_name = Movie.select("movies.id,movies.name")
+      .joins(shows: { screen: :theater })
+      .where(movies: { is_active: true })
+      .where("release_date >= ?", d.to_s)
+      .group("movies.id")
       .order("sum(shows.booked_tickets) DESC")
-      .limit(3)
       .as_json
-    render json: movie_name
+
+    if movie_name.length > 0
+      render json: movie_name
+    else
+      all_active_movies
+    end
   end
 
   def create
@@ -38,16 +58,6 @@ class MovieController < ApplicationController
       render json: @movies
     else
       render json: { message: "No movies found" }
-    end
-  end
-
-  def get_latest_movies
-    @movies = Movie.where("is_active = true")
-    if @movies
-      puts "Hello sahil ...:)"
-      render json: @movies
-    else
-      render json: { message: "No movies available" }
     end
   end
 
