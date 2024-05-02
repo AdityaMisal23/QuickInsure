@@ -1,0 +1,34 @@
+/* body {
+    background-color: #f8f9fa;
+  } */
+.bodyclass {
+display: grid;
+place-items: center;
+min-height: 100vh;
+background-color: #01252B;
+color: white;
+width: 100vw;
+}
+.container.card {
+background-color: #558A95;
+border-radius: 10px;
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+padding: 30px;
+width: 100%; /* Change width to 100% */
+}
+
+.form-group label {
+font-weight: bold;
+width: 0%;
+}
+.btn-primary {
+background-color: #002333;
+border-color: #002333;
+}
+.btn-primary:hover {
+background-color: #001f2f;
+border-color: #001f2f;
+}
+.loginbtn a {
+color: #002333;
+}

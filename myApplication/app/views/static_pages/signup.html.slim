@@ -1,0 +1,85 @@
+-height = "180px"
+-isChecked = false
+-additionalFields = []
+-inputFirstName = ""
+-inputEmail = ""
+-inputMobile = ""
+-inputPassword = ""
+-inputCity = "" 
+-inputState = ""
+-inputZip = ""
+-inputHomeAddress = ""
+
+
+doctype html
+html
+    head
+        title "user_signup"
+        link rel="stylesheet" type="text/css" href="signup.css"
+    body
+        .bodyclass(style="height: #{height};")
+            .container.card.p-3
+                form
+                    div(style="border-radius: 5px; background-color: #01252B; color: white; height: 70px;") 
+                        h1.text-center(style="margin-bottom: 10px; margin-left: 0px") Sign Up
+                    br
+                    div(style="display: flex;")
+                        div(style="width: 500px;")
+                            label(for="inputFirstName") 
+                                h5 Name
+                            input.form-control(type="text" id="inputEmail" placeholder="Xaviers" onchange="setName(event.target.value)")
+                    br
+                    div(style="display: flex;")
+                        div(style="width: 500px;")
+                            label(for="inputEmail") 
+                                h5 Email
+                            input.form-control(type="email" id="inputEmail" placeholder="abc23@gmail.com" onchange="setEmail(event.target.value)")
+                        div(style="width: 500px; margin-left: 30px")
+                            label(for="inputMobile") 
+                                h5 Mobile
+                            input.form-control(type="number" id="inputMobile" placeholder="9999999999" onchange="setMobile(event.target.value)")
+                    br
+                    div(style="display: flex;")
+                        div(style="width: 500px;")
+                            label(for="inputPassword") 
+                                h5 Password
+                            input.form-control(type="password" id="inputPassword" placeholder="Abc@1234" onchange="setPassword(event.target.value)")
+                        div(style="width: 500px; margin-left: 30px")
+                            label(for="inputConfirmPassword") 
+                                h5 Confirm Password
+                            input.form-control(type="password" id="inputConfirmPassword" placeholder="Abc@1234" onchange="setConform(event.target.value)")
+                    br
+                    div(style="display: flex;")
+                        div(style="width: 400px;")
+                            label(for="inputCity") 
+                                h5 City
+                            input.form-control(type="text" id="inputCity" placeholder="Mumbai" onchange="homeAadrress.city = event.target.value")
+                        div(style="width: 400px; margin-left: 30px") 
+                            label(for="inputState") 
+                                h5 State
+                            select.form-control(id="inputState" onchange="homeAadrress.state = event.target.value")
+                                option(selected="selected") Choose...
+                                option ... # Add options as needed
+                        div(style="width: 400px; margin-left: 30px")
+                            label(for="inputZip") 
+                                h5 Zip
+                            input.form-control(type="text" id="inputZip" onchange="homeAadrress.pincode = event.target.value")
+                    br
+                    div(style="display: flex; flex-direction: column;")
+                    div
+                        label(for="inputHomeAddress") 
+                        h5 Home Address
+                    div
+                         textarea.form-control(type="text";  id="inputHomeAddress" placeholder="1234 Main St" onchange="homeAadrress.fullAddress = event.target.value")
+                    br
+                    div(style="display: flex;")
+                        input.form-check-input(type="checkbox" id="gridCheck" onchange="handleCheckboxChange()")
+                        label.form-check-label(for="gridCheck") 
+                            h5 Register as a Seller
+                    - if isChecked
+                        == additionalFields.map { |field| field }
+                    br
+                    button.btn.btn-primary.btn-block(type="submit" style="margin-left: 600px" onclick="handleSignUp()",) Sign Up
+                    p.loginbtn.text-center
+                        | Already Have an Account?  
+                        a.btn.btn-link(href="/") Login

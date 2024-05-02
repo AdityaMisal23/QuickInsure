@@ -65,6 +65,16 @@ Rails.application.routes.draw do
 
   get "user/getUsersBasedOnRole", to: "user#get_users_based_on_role"
 
+  get "/login", to: "static_pages#login"
+
+  get "/signup", to: "static_pages#signup"
+
+  get "/home", to: "static_pages#home_page"
+
+  get "movie/get_url" , to: "movie#get_url"
+
+  post "movie/update_movie_poster" , to: "movie#update_movie_poster"
+
   resources :show
 
   resources :user
@@ -82,6 +92,8 @@ Rails.application.routes.draw do
   resources :payment
 
   resources :log
+
+  root "movie#get_latest_movies"
 end
 
 #   get '/user_controller', to: 'user_controller#index'

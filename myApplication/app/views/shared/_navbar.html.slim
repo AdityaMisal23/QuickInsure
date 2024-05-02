@@ -1,0 +1,58 @@
+-location = ""
+-username = ""
+
+doctype html
+html
+  head
+    title My Website
+    link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    / link rel="stylesheet" type="text/css" href="navbar.css"s
+
+
+  body
+    nav.navbar.navbar-expand-lg.navbar-light(style="background-color: #01252B;")
+        a.navbar-brand(style="margin-left: 50px;") 
+            .logocontainer 
+                .logo
+                    h1 snapSeats
+
+        form.form-inline.my-5.my-lg-0
+            input.form-control(style="margin-left: 170px; margin-top: 10px;  width: 700px" type="search" placeholder="Search" aria-label="Search")
+            button.btn.btn-outline-success(style="margin-left: 10px;" type="submit") Search
+
+        - if location.empty?
+            button#locationButton Locations
+        - else
+            button#locationButton= location 
+
+
+        #overlay
+            #locationPopup
+                img.close#close(src="../../images/delete.png" alt="")
+                ul
+                    li New York
+                    li London
+                    li Paris
+        
+            javascript:
+                document.addEventListener('DOMContentLoaded', function() {
+                    var locationButton = document.getElementById('locationButton');
+                    var overlay = document.getElementById('overlay');
+                    var locationPopup = document.getElementById('locationPopup');
+                    var close = document.getElementById('close');
+
+                    locationButton.addEventListener('click', function() {
+                        overlay.style.display = 'block';
+                        locationPopup.style.display = 'block';
+                    });
+
+                    close.addEventListener('click', function(){
+                        overlay.style.display = 'none';
+                        locationPopup.style.display = 'none';
+                    });
+                });
+
+        - if username.empty?
+            button#login.btn.btn-success LOGIN
+        -else
+            button#login= username

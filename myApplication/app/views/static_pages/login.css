@@ -1,0 +1,109 @@
+.full-container {
+    background-color: #558A95;
+    height: 100vh;
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+    width: 100vw;
+    display: flex;
+    color: white;
+    font-family: 'Arial', sans-serif;
+}
+
+.inner-container {
+    display: flex;
+    margin-left: 375px;
+    height: 600px;
+    margin-top: 100px;
+}
+
+h4 {
+    color: white;
+}
+
+img {
+    width: 550px;
+    opacity: ease;  
+    margin-top: 20px;
+    height: 600px;
+}
+
+.login-container {
+    background-color: #01252B;
+    padding: 20px;
+    width: 400px;
+    margin-top: 20px;
+    height: 600px;
+}
+
+h2 {
+    color: white;
+    margin-left: 135px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+label {
+    margin-bottom: 10px;
+    color: white;
+}
+
+input,
+select {
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #dee7ef;
+    border-radius: 4px;
+    height: 37px;
+    margin-top: 0px;
+    width: 100%;
+}
+
+button {
+    padding: 10px;
+    background-color: #dee7ef;
+    color: #002333;
+    border: 2px solid #333;    
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    border-color: #002333;
+}
+
+button:hover {
+    background-color: #5B92A4;
+    color: white;
+}
+
+.error-message {
+    color: #ff4d4f;
+    margin-top: 5px;
+}
+
+.sign-up-link {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.sign-up-link a {
+    color: #0C66C2;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.sign-up-link a:hover {
+    text-decoration: underline;
+}
+
+
+.image-container{
+    position: relative;
+    width: 800px;
+    margin-top: 20px;
+    height: 600px;
+    background-image: url("../../images/login.jpg");
+}

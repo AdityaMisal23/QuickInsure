@@ -9,7 +9,8 @@ class UserController < ApplicationController
 
   def index
     @all_users = User.all
-    render json: @all_users
+    # render json: @all_users
+    # render :index
   end
 
   def get_users_based_on_role
@@ -22,7 +23,10 @@ class UserController < ApplicationController
   end
 
   def login
-    @user = User.find_by(email: params[:email], password: params[:password])
+    puts params[:username]
+    puts params[:password]
+    puts params[:role]
+    @user = User.find_by(email: params[:username], password: params[:password], role: params[:role])
     if @user
       # session[:user_id] = @user.id
       render json: { message: "Login successful" }

@@ -1,0 +1,41 @@
+-shoppingImag = "../../images/images.jpeg"
+-username = ""
+-password = ""
+-loginAs = ""
+-error = nil
+
+doctype html
+html
+  head
+    title Your Page Titlex
+    link rel="stylesheet" type="text/css" href="login.css"
+  body
+    .full-container
+      .inner-container
+        .image-container
+
+        .login-container
+          h2(style="color: #002333; text-decoration: underline;") Login
+          form(action="/user/login" method="get")
+              label
+                h4(style="margin-bottom: 0px;") Username:
+                br
+                input(type="text" name="username"  value=username onchange="setUsername(event.target.value)")
+              label
+                h4(style="margin-bottom: 0px;") Password:
+                br
+                input(type="password" name="password" value=password onchange="setPassword(event.target.value)")
+              label
+                h4(style="margin-bottom: 0px;") Login As:
+                br
+                select(style="margin-bottom: 32px;" name="role"  value=loginAs onchange="setLoginAs(event.target.value)")
+                  option(value="customer") Customer
+                  option(value="theater") Theater owner
+                  option(value="admin") Admin
+              - if error
+                p.error-message = error
+              button(type="submit") Login
+              p.sign-up-link
+                | Don't have an account? 
+                a(href="/signup") Sign Up
+      
